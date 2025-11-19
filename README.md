@@ -45,3 +45,20 @@ This is the framework-based version of my e-commerce project. I also built a [va
 
 ---
 
+## Usage
+
+to see the webpage follow thes instructions below:
+
+- **Clone the repository**
+- **Navigate to the repository**
+- **Run commands:** composer install
+                    npm install
+                    composer require laravel/breeze --dev
+                    php artisan breeze:install react
+                    php artisan key:generate
+                    php artisan migrate
+                    npm install
+                    npm run dev
+                    
+- **Open another terminal and run:** php artisan serve
+
