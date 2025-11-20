@@ -1,18 +1,18 @@
-# 🛍️ E-Commerce Platform - Laravel
+# 🛍️ E-Commerce Platform - Laravel + React
 
-> A full-featured e-commerce platform built with Laravel 10, demonstrating MVC architecture, RESTful API design, and modern PHP development practices.
+> A full-featured e-commerce platform built with Laravel 10 and React, demonstrating MVC architecture, RESTful API design, and modern web development practices.
 
 ---
 
 ## 🎯 About The Project
 
-This is a college project showcasing a complete e-commerce platform built using **Laravel framework** with **MVC architecture** and **CRUD operations**. The project demonstrates understanding of:
+This is a college project showcasing a complete e-commerce platform built using **Laravel framework** with **React frontend** and **MVC architecture**. The project demonstrates understanding of:
 
 - ✅ Model-View-Controller (MVC) design pattern
 - ✅ RESTful API development
 - ✅ Database relationships and migrations
-- ✅ Authentication & Authorization
-- ✅ Modern PHP frameworks
+- ✅ Authentication & Authorization (Laravel Breeze)
+- ✅ Modern PHP frameworks with React SPA
 - ✅ Clean code practices
 
 ### **Learning Journey**
@@ -27,38 +27,74 @@ This is the framework-based version of my e-commerce project. I also built a [va
 - **Framework:** Laravel 10.x
 - **Language:** PHP 8.1+
 - **Database:** MySQL 8.0
-- **Authentication:** Laravel Sanctum / Breeze
+- **Authentication:** Laravel Breeze with React
 - **ORM:** Eloquent
 
 ### Frontend
-- **Template Engine:** Blade
+- **Framework:** React 18.x
+- **Build Tool:** Vite
 - **CSS Framework:** Tailwind CSS 3.x
-- **JavaScript:** Alpine.js / Vanilla JS
-- **Icons:** Boxicons
+- **HTTP Client:** Axios
+- **Routing:** React Router / Inertia.js
 
 ### Tools & Services
-- **Server:** Apache (XAMPP)
-- **Package Manager:** Composer
+- **Package Manager:** Composer (PHP) & npm (JavaScript)
 - **Version Control:** Git
-- **API Testing:** Postman
 - **Code Editor:** VS Code
 
 ---
 
-## Usage
+## 📋 Prerequisites
 
-to see the webpage follow thes instructions below:
+Make sure you have the following installed:
+- PHP 8.1+
+- Composer
+- Node.js 16+ and npm
+- MySQL 8.0
+- Git
 
-- **Clone the repository**
-- **Navigate to the repository**
-- **Run commands:** composer install
-                    npm install
-                    composer require laravel/breeze --dev
-                    php artisan breeze:install react
-                    php artisan key:generate
-                    php artisan migrate
-                    npm install
-                    npm run dev
-                    
-- **Open another terminal and run:** php artisan serve
+---
 
+## 🚀 Installation & Setup
+
+### Step 1: Clone the Repository
+
+### Step 2: Navigate to repository and install dependencies
+
+# Install PHP dependencies
+composer install
+
+# Install JavaScript dependencies
+npm install
+
+## Step 3: Environment Configuration
+
+# Copy the environment file
+cp .env.example .env
+
+# Generate application key
+php artisan key:generate
+
+## Step 4: Database Setup
+
+1. Create a MySQL database 
+    in terminal run:
+        mysql -u root -p
+        CREATE DATABASE ecommerce_db;
+        exit;
+2. Configure database in .env file 
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=ecommerce_db
+    DB_USERNAME=your_username
+    DB_PASSWORD=your_password
+3. Run Laravel migrations FIRST (creates base tables)
+    php artisan migrate
+4. Import SQL modifications SECOND (adds custom fields and data)
+    mysql -u root -p ecommerce_db < database/sql/laravel_ecommerce.sql
+
+## Step 5: Start the Development Servers
+    npm run dev
+**open another terminal and run:**
+    php artisan serve
