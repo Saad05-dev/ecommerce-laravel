@@ -17,7 +17,7 @@ This is a college project showcasing a complete e-commerce platform built using 
 
 ### **Learning Journey**
 
-This is the framework-based version of my e-commerce project. I also built a [vanilla PHP version](https://github.com/Saad05-dev/ecommerce-project-vanilla-php) to understand core concepts before using frameworks.
+This is the framework-based version of my e-commerce project. I also currently building a [vanilla PHP version](https://github.com/Saad05-dev/ecommerce-project-vanilla-php) to understand core concepts before using frameworks.
 
 ---
 
