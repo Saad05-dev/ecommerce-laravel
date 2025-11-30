@@ -130,31 +130,29 @@ php artisan key:generate
 
 1. Create a MySQL database 
     in terminal run:
-    ```bash
+```bash
         mysql -u root -p
         CREATE DATABASE ecommerce_db;
         exit;
-    ```
+```
 2. Configure database in .env file 
-    ```
+```bash
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
     DB_DATABASE=ecommerce_db
     DB_USERNAME=your_username
     DB_PASSWORD=your_password
-    ```
-3. Run Laravel migrations FIRST (creates base tables)
-    ```
-    php artisan migrate
-    ```
-4. Import SQL modifications SECOND (adds custom fields and data)
-    ```
-    mysql -u root -p ecommerce_db < database/sql/laravel_ecommerce.sql
-    ```
-## Step 5: Start the Development Servers
-    npm run dev
-**open another terminal and run:**
 ```
+3. Run Laravel migrations FIRST (creates base tables)
+ ```bash
+    php artisan migrate
+```
+## Step 5: Start the Development Servers
+```bash
+    npm run dev
+```
+**open another terminal and run:**
+```bash
     php artisan serve
 ```

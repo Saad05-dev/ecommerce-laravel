@@ -20,6 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'first_name',
         'last_name',
+        'phone',
         'email',
         'password',
         'phone',
@@ -74,5 +75,16 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (User $user) {
+            $user->name = $user->first_name . ' ' . $user->last_name;
+        });
+        
+        static::updating(function (User $user) {
+            $user->name = $user->first_name . ' ' . $user->last_name;
+        });
     }
 }
