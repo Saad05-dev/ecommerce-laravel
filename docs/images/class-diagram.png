@@ -1,0 +1,236 @@
+<svg viewBox="0 0 1400 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- Define styles -->
+  <defs>
+    <style>
+      .table-box { fill: #ffffff; stroke: #2563eb; stroke-width: 2; }
+      .header-box { fill: #2563eb; }
+      .header-text { fill: #ffffff; font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; }
+      .field-text { fill: #1f2937; font-family: Arial, sans-serif; font-size: 12px; }
+      .pk-text { fill: #dc2626; font-weight: bold; }
+      .fk-text { fill: #059669; }
+      .relation-line { stroke: #6b7280; stroke-width: 2; fill: none; }
+      .relation-arrow { fill: #6b7280; }
+    </style>
+  </defs>
+
+  <!-- Users Table -->
+  <g id="users">
+    <rect class="table-box" x="550" y="20" width="200" height="180" rx="8"/>
+    <rect class="header-box" x="550" y="20" width="200" height="35" rx="8"/>
+    <text class="header-text" x="650" y="42" text-anchor="middle">USERS</text>
+    <text class="field-text pk-text" x="560" y="65">• id (PK)</text>
+    <text class="field-text" x="560" y="85">• first_name</text>
+    <text class="field-text" x="560" y="105">• last_name</text>
+    <text class="field-text" x="560" y="125">• email (unique)</text>
+    <text class="field-text" x="560" y="145">• password</text>
+    <text class="field-text" x="560" y="165">• phone</text>
+    <text class="field-text" x="560" y="185">• is_active</text>
+  </g>
+
+  <!-- Customer Addresses Table -->
+  <g id="addresses">
+    <rect class="table-box" x="850" y="20" width="220" height="200" rx="8"/>
+    <rect class="header-box" x="850" y="20" width="220" height="35" rx="8"/>
+    <text class="header-text" x="960" y="42" text-anchor="middle">CUSTOMER_ADDRESSES</text>
+    <text class="field-text pk-text" x="860" y="65">• id (PK)</text>
+    <text class="field-text fk-text" x="860" y="85">• user_id (FK)</text>
+    <text class="field-text" x="860" y="105">• address_line1</text>
+    <text class="field-text" x="860" y="125">• city</text>
+    <text class="field-text" x="860" y="145">• postal_code</text>
+    <text class="field-text" x="860" y="165">• country</text>
+    <text class="field-text" x="860" y="185">• address_type</text>
+    <text class="field-text" x="860" y="205">• is_default</text>
+  </g>
+
+  <!-- Orders Table -->
+  <g id="orders">
+    <rect class="table-box" x="550" y="260" width="200" height="220" rx="8"/>
+    <rect class="header-box" x="550" y="260" width="200" height="35" rx="8"/>
+    <text class="header-text" x="650" y="282" text-anchor="middle">ORDERS</text>
+    <text class="field-text pk-text" x="560" y="305">• id (PK)</text>
+    <text class="field-text fk-text" x="560" y="325">• user_id (FK)</text>
+    <text class="field-text" x="560" y="345">• order_number</text>
+    <text class="field-text" x="560" y="365">• order_status</text>
+    <text class="field-text" x="560" y="385">• payment_status</text>
+    <text class="field-text" x="560" y="405">• total_amount</text>
+    <text class="field-text fk-text" x="560" y="425">• shipping_address_id</text>
+    <text class="field-text fk-text" x="560" y="445">• billing_address_id</text>
+    <text class="field-text" x="560" y="465">• payment_method</text>
+  </g>
+
+  <!-- Order Items Table -->
+  <g id="order-items">
+    <rect class="table-box" x="320" y="520" width="200" height="160" rx="8"/>
+    <rect class="header-box" x="320" y="520" width="200" height="35" rx="8"/>
+    <text class="header-text" x="420" y="542" text-anchor="middle">ORDER_ITEMS</text>
+    <text class="field-text pk-text" x="330" y="565">• id (PK)</text>
+    <text class="field-text fk-text" x="330" y="585">• order_id (FK)</text>
+    <text class="field-text fk-text" x="330" y="605">• product_id (FK)</text>
+    <text class="field-text" x="330" y="625">• quantity</text>
+    <text class="field-text" x="330" y="645">• unit_price</text>
+    <text class="field-text" x="330" y="665">• total_price</text>
+  </g>
+
+  <!-- Products Table -->
+  <g id="products">
+    <rect class="table-box" x="50" y="350" width="200" height="200" rx="8"/>
+    <rect class="header-box" x="50" y="350" width="200" height="35" rx="8"/>
+    <text class="header-text" x="150" y="372" text-anchor="middle">PRODUCTS</text>
+    <text class="field-text pk-text" x="60" y="395">• id (PK)</text>
+    <text class="field-text fk-text" x="60" y="415">• category_id (FK)</text>
+    <text class="field-text" x="60" y="435">• sku (unique)</text>
+    <text class="field-text" x="60" y="455">• name</text>
+    <text class="field-text" x="60" y="475">• description</text>
+    <text class="field-text" x="60" y="495">• price</text>
+    <text class="field-text" x="60" y="515">• stock_quantity</text>
+    <text class="field-text" x="60" y="535">• is_active</text>
+  </g>
+
+  <!-- Categories Table -->
+  <g id="categories">
+    <rect class="table-box" x="50" y="120" width="200" height="160" rx="8"/>
+    <rect class="header-box" x="50" y="120" width="200" height="35" rx="8"/>
+    <text class="header-text" x="150" y="142" text-anchor="middle">CATEGORIES</text>
+    <text class="field-text pk-text" x="60" y="165">• id (PK)</text>
+    <text class="field-text" x="60" y="185">• name</text>
+    <text class="field-text" x="60" y="205">• slug (unique)</text>
+    <text class="field-text fk-text" x="60" y="225">• parent_id (FK)</text>
+    <text class="field-text" x="60" y="245">• description</text>
+    <text class="field-text" x="60" y="265">• is_active</text>
+  </g>
+
+  <!-- Product Images Table -->
+  <g id="product-images">
+    <rect class="table-box" x="50" y="600" width="200" height="140" rx="8"/>
+    <rect class="header-box" x="50" y="600" width="200" height="35" rx="8"/>
+    <text class="header-text" x="150" y="622" text-anchor="middle">PRODUCT_IMAGES</text>
+    <text class="field-text pk-text" x="60" y="645">• id (PK)</text>
+    <text class="field-text fk-text" x="60" y="665">• product_id (FK)</text>
+    <text class="field-text" x="60" y="685">• image_url</text>
+    <text class="field-text" x="60" y="705">• is_primary</text>
+    <text class="field-text" x="60" y="725">• sort_order</text>
+  </g>
+
+  <!-- Cart Items Table -->
+  <g id="cart-items">
+    <rect class="table-box" x="320" y="120" width="200" height="140" rx="8"/>
+    <rect class="header-box" x="320" y="120" width="200" height="35" rx="8"/>
+    <text class="header-text" x="420" y="142" text-anchor="middle">CART_ITEMS</text>
+    <text class="field-text pk-text" x="330" y="165">• id (PK)</text>
+    <text class="field-text fk-text" x="330" y="185">• user_id (FK)</text>
+    <text class="field-text" x="330" y="205">• session_id</text>
+    <text class="field-text fk-text" x="330" y="225">• product_id (FK)</text>
+    <text class="field-text" x="330" y="245">• quantity</text>
+  </g>
+
+  <!-- Reviews Table -->
+  <g id="reviews">
+    <rect class="table-box" x="320" y="350" width="200" height="140" rx="8"/>
+    <rect class="header-box" x="320" y="350" width="200" height="35" rx="8"/>
+    <text class="header-text" x="420" y="372" text-anchor="middle">REVIEWS</text>
+    <text class="field-text pk-text" x="330" y="395">• id (PK)</text>
+    <text class="field-text fk-text" x="330" y="415">• product_id (FK)</text>
+    <text class="field-text fk-text" x="330" y="435">• user_id (FK)</text>
+    <text class="field-text" x="330" y="455">• rating (1-5)</text>
+    <text class="field-text" x="330" y="475">• review_text</text>
+  </g>
+
+  <!-- Payments Table (NEW) -->
+  <g id="payments">
+    <rect class="table-box" x="850" y="300" width="200" height="160" rx="8"/>
+    <rect class="header-box" x="850" y="300" width="200" height="35" rx="8"/>
+    <text class="header-text" x="950" y="322" text-anchor="middle">PAYMENTS</text>
+    <text class="field-text pk-text" x="860" y="345">• id (PK)</text>
+    <text class="field-text fk-text" x="860" y="365">• order_id (FK)</text>
+    <text class="field-text" x="860" y="385">• amount</text>
+    <text class="field-text" x="860" y="405">• payment_method</text>
+    <text class="field-text" x="860" y="425">• status</text>
+    <text class="field-text" x="860" y="445">• transaction_id</text>
+  </g>
+
+  <!-- Relationships -->
+  
+  <!-- Users -> Customer Addresses (1:N) -->
+  <path class="relation-line" d="M 750 110 L 850 110" marker-end="url(#arrowhead)"/>
+  <text class="field-text" x="790" y="105" font-size="10">1</text>
+  <text class="field-text" x="835" y="105" font-size="10">N</text>
+  
+  <!-- Users -> Orders (1:N) -->
+  <path class="relation-line" d="M 650 200 L 650 260"/>
+  <text class="field-text" x="655" y="220" font-size="10">1</text>
+  <text class="field-text" x="655" y="255" font-size="10">N</text>
+  
+  <!-- Users -> Cart Items (1:N) -->
+  <path class="relation-line" d="M 550 110 L 520 110"/>
+  <text class="field-text" x="535" y="105" font-size="10">1</text>
+  <text class="field-text" x="525" y="105" font-size="10">N</text>
+  
+  <!-- Users -> Reviews (1:N) -->
+  <path class="relation-line" d="M 550 150 L 420 220 L 420 350"/>
+  <text class="field-text" x="525" y="165" font-size="10">1</text>
+  <text class="field-text" x="425" y="345" font-size="10">N</text>
+  
+  <!-- Orders -> Order Items (1:N) -->
+  <path class="relation-line" d="M 600 480 L 480 520"/>
+  <text class="field-text" x="570" y="490" font-size="10">1</text>
+  <text class="field-text" x="485" y="518" font-size="10">N</text>
+  
+  <!-- Products -> Order Items (1:N) -->
+  <path class="relation-line" d="M 250 500 L 320 590"/>
+  <text class="field-text" x="255" y="518" font-size="10">1</text>
+  <text class="field-text" x="315" y="585" font-size="10">N</text>
+  
+  <!-- Products -> Product Images (1:N) -->
+  <path class="relation-line" d="M 150 550 L 150 600"/>
+  <text class="field-text" x="155" y="570" font-size="10">1</text>
+  <text class="field-text" x="155" y="595" font-size="10">N</text>
+  
+  <!-- Products -> Reviews (1:N) -->
+  <path class="relation-line" d="M 250 420 L 320 420"/>
+  <text class="field-text" x="255" y="415" font-size="10">1</text>
+  <text class="field-text" x="315" y="415" font-size="10">N</text>
+  
+  <!-- Products -> Cart Items (1:N) -->
+  <path class="relation-line" d="M 150 350 L 150 320 L 370 320 L 370 260"/>
+  <text class="field-text" x="155" y="340" font-size="10">1</text>
+  <text class="field-text" x="375" y="265" font-size="10">N</text>
+  
+  <!-- Categories -> Products (1:N) -->
+  <path class="relation-line" d="M 150 280 L 150 350"/>
+  <text class="field-text" x="155" y="300" font-size="10">1</text>
+  <text class="field-text" x="155" y="345" font-size="10">N</text>
+  
+  <!-- Categories -> Categories (self-reference) -->
+  <path class="relation-line" d="M 50 200 L 30 200 L 30 170 L 50 170"/>
+  <text class="field-text" x="15" y="185" font-size="9">parent</text>
+  
+  <!-- Orders -> Payments (1:N) -->
+  <path class="relation-line" d="M 750 370 L 850 370"/>
+  <text class="field-text" x="790" y="365" font-size="10">1</text>
+  <text class="field-text" x="835" y="365" font-size="10">N</text>
+  
+  <!-- Customer Addresses -> Orders (shipping) -->
+  <path class="relation-line" d="M 900 220 L 900 300 L 750 300" stroke-dasharray="5,5"/>
+  <text class="field-text" x="865" y="265" font-size="9">shipping</text>
+
+  <!-- Arrow marker definition -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon class="relation-arrow" points="0 0, 10 3, 0 6" />
+    </marker>
+  </defs>
+  
+  <!-- Legend -->
+  <g id="legend">
+    <rect fill="#f9fafb" stroke="#d1d5db" x="1120" y="550" width="250" height="150" rx="8"/>
+    <text class="header-text" fill="#1f2937" x="1245" y="575" text-anchor="middle">LÉGENDE</text>
+    <text class="pk-text" x="1130" y="600">• PK</text>
+    <text class="field-text" x="1170" y="600">= Clé Primaire</text>
+    <text class="fk-text" x="1130" y="625">• FK</text>
+    <text class="field-text" x="1170" y="625">= Clé Étrangère</text>
+    <line x1="1130" y1="640" x2="1180" y2="640" stroke="#6b7280" stroke-width="2"/>
+    <text class="field-text" x="1190" y="645">= Relation 1:N</text>
+    <line x1="1130" y1="665" x2="1180" y2="665" stroke="#6b7280" stroke-width="2" stroke-dasharray="5,5"/>
+    <text class="field-text" x="1190" y="670">= Relation optionnelle</text>
+  </g>
+</svg>

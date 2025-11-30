@@ -179,6 +179,21 @@ CREATE TABLE order_items (
     INDEX idx_order_id (order_id)
 );
 
+-- PAYMENTS 
+CREATE TABLE payments (
+    id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    order_id BIGINT UNSIGNED NOT NULL,
+    amount DECIMAL(10, 2) NOT NULL,
+    payment_method ENUM('credit_card', 'paypal', 'cash_on_delivery') NOT NULL,
+    payment_status ENUM('pending', 'completed', 'failed', 'refunded') DEFAULT 'pending',
+    transaction_id VARCHAR(255) NULL,
+    paid_at TIMESTAMP NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    INDEX idx_order_id (order_id)
+);
+
 -- REVIEWS
 CREATE TABLE reviews (
     id BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,

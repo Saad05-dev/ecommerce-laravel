@@ -15,9 +15,46 @@ This is a college project showcasing a complete e-commerce platform built using 
 - ✅ Modern PHP frameworks with React SPA
 - ✅ Clean code practices
 
+
+
 ### **Learning Journey**
 
 This is the framework-based version of my e-commerce project. I also currently building a [vanilla PHP version](https://github.com/Saad05-dev/ecommerce-project-vanilla-php) to understand core concepts before using frameworks.
+
+---
+
+## 📋 Project Overview
+
+### Core Features
+
+- **User Management** - Registration, login, and profile management
+- **Product Catalog** - Browse products with categories
+- **Shopping Cart** - Works for both guests (session) and authenticated users
+- **Order System** - Complete order processing and tracking
+- **Reviews & Ratings** - Customers can rate and review products
+- **Address Management** - Shipping and billing addresses
+
+### Use Cases
+
+| Actor | Action |
+|-------|--------|
+| 👤 Visitor | Can browse products without an account |
+| 📝 User | Can register and create a profile |
+| 🛒 Customer | Can add products to cart |
+| 📦 Customer | Can place orders and track status |
+| ⭐ Customer | Can leave reviews on purchased products |
+
+### Database Schema
+
+The database follows a relational model with the following main entities:
+
+![Database Schema](docs/images/database-schema.png)
+
+> *See full SQL schema in [`database/sql/laravel_ecommerce.sql`](database/sql/laravel_ecommerce.sql)
+
+### Class Diagram
+
+![Class Diagram](docs/images/class-diagram.png)
 
 ---
 
@@ -57,44 +94,67 @@ Make sure you have the following installed:
 
 ## 🚀 Installation & Setup
 
-### Step 1: Clone the Repository
+## Step 1: Clone the Repository
+```bash
+git clone git@github.com:Saad05-dev/ecommerce-laravel.git
+```
 
-### Step 2: Navigate to repository and install dependencies
+## Step 2: Navigate to repository and install dependencies
+```bash
+cd ecommerce-laravel
+```
 
-# Install PHP dependencies
+## Install PHP dependencies
+```bash
 composer install
+```
 
-# Install JavaScript dependencies
+## Install JavaScript dependencies
+```bash
 npm install
+```
 
 ## Step 3: Environment Configuration
 
-# Copy the environment file
+**Copy the environment file**
+```bash
 cp .env.example .env
+```
 
 # Generate application key
+```bash
 php artisan key:generate
+```
 
 ## Step 4: Database Setup
 
 1. Create a MySQL database 
     in terminal run:
+    ```bash
         mysql -u root -p
         CREATE DATABASE ecommerce_db;
         exit;
+    ```
 2. Configure database in .env file 
+    ```
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
     DB_DATABASE=ecommerce_db
     DB_USERNAME=your_username
     DB_PASSWORD=your_password
+    ```
 3. Run Laravel migrations FIRST (creates base tables)
+    ```
     php artisan migrate
+    ```
 4. Import SQL modifications SECOND (adds custom fields and data)
+    ```
     mysql -u root -p ecommerce_db < database/sql/laravel_ecommerce.sql
-
+    ```
 ## Step 5: Start the Development Servers
     npm run dev
 **open another terminal and run:**
+```
     php artisan serve
+```
