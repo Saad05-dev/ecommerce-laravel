@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -31,5 +32,12 @@ require __DIR__.'/auth.php';
 
 Route::middleware(['auth','verified'])->group(function () {
     Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+
     Route::get('/products', [ProductsController::class, 'index'])->name('products.index');
+    Route::get('/products/{product:slug}', [ProductsController::class, 'show'])->name('products.show');
+
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order:order_number}', [OrderController::class, 'show'])->name('orders.show');
+
+    Route::post('/products/{product:slug}/buy', [OrderController::class, 'buy'])->name('orders.buy');
 });

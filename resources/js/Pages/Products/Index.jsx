@@ -9,7 +9,12 @@ export default function Index({products}) {
                 <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
                     {products.map((product) => (
                         <div key={product.id} className='rounded border p-4'>
-                            <h3 className='text-lg font-semibold'>{product.name}</h3>
+                            <h3 className='text-lg font-semibold'>
+                                <a href={route('products.show', product.slug)}
+                                className='text-indigo-600 hover:underline'>
+                                    {product.name}
+                                </a>
+                                </h3>
                             <p className="text-sm text-gray-500">
                             Category: {product.category ? product.category.name : 'Uncategorized'}</p>
                             <p className='text-sm text-gray-600'>{product.description}</p>
