@@ -1,11 +1,19 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head} from '@inertiajs/react';
+import {Head, Link} from '@inertiajs/react';
 
 export default function Index({products}) {
     return (
         <AuthenticatedLayout
             header={<h2 className="text-xl font-semibold leading-tight text-gray-800">Products</h2>} >
                 <Head title="Products" />
+                <div className="mb-4">
+                <Link
+                    href={route('products.create')}
+                    className="inline-flex rounded bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-700"
+                >
+                    Add Product
+                </Link>
+                </div>
                 <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
                     {products.map((product) => (
                         <div key={product.id} className='rounded border p-4'>
