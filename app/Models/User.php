@@ -3,9 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Notifications\CustomResetPasswordNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Mail\ResetPasswordMail;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -86,5 +90,14 @@ class User extends Authenticatable
         static::updating(function (User $user) {
             $user->name = $user->first_name . ' ' . $user->last_name;
         });
+    }
+    public function sendPasswordResetNotification($token) : void
+    {
+        $url = url(route('password.reset', [
+            'token' => $token,
+            'email' => $this->email,
+        ], false));
+    
+        Mail::to($this->email)->send(new ResetPasswordMail($url, $this->name));
     }
 }
