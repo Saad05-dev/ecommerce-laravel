@@ -23,7 +23,6 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamps();
             $table->index('product_id','idx_product_id');
-            $table->index('user_id','idx_user_id');
             $table->unique(['user_id', 'product_id'], 'unique_user_product_review');
         });
     }

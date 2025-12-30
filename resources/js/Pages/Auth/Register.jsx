@@ -17,6 +17,7 @@ export default function Register() {
 
     const submit = (e) => {
         e.preventDefault();
+
         post(route('register'), {
             onFinish: () => reset('password', 'password_confirmation'),
         });
@@ -26,75 +27,101 @@ export default function Register() {
         <GuestLayout>
             <Head title="Register" />
 
-            <h2 className="mb-2 text-2xl font-semibold tracking-tight">Create your account</h2>
-            <p className="mb-6 text-sm text-slate-300">
-                Set up your admin account to start managing products and orders.
-            </p>
+            <div className="max-w-md mx-auto">
+                {/* Logo */}
+                <div className="flex justify-center mb-8">
+                    <Link href="/">
+                        <div
+                            className="font-extrabold tracking-tight text-center"
+                            style={{
+                                WebkitTextStroke: '2px black',
+                                WebkitTextFillColor: 'transparent',
+                                color: 'transparent',
+                            }}
+                        >
+                            <div className="text-4xl leading-tight">SAAD</div>
+                            <div className="text-3xl leading-tight">MEHDI</div>
+                        </div>
+                    </Link>
+                </div>
 
-            <form onSubmit={submit} className="space-y-4">
-                <div className="grid gap-4 sm:grid-cols-2">
+                {/* Header */}
+                <div className="text-center mb-8">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-3">Create your account</h1>
+                    <p className="text-lg text-gray-500">Sign up to start shopping</p>
+                </div>
+
+                <form onSubmit={submit} className="space-y-6">
                     <div>
-                        <InputLabel className="text-slate-100" htmlFor="first_name" value="First Name" />
+                        <InputLabel htmlFor="first_name" value="First Name" />
+
                         <TextInput
                             id="first_name"
                             name="first_name"
                             value={data.first_name}
                             className="mt-1 block w-full"
-                            autoComplete="given-name"
+                            autoComplete="name"
+                            isFocused={true}
                             onChange={(e) => setData('first_name', e.target.value)}
                             required
                         />
-                        <InputError message={errors.first_name} className="mt-1" />
+
+                        <InputError message={errors.first_name} className="mt-2" />
                     </div>
 
                     <div>
-                        <InputLabel className="text-slate-100" htmlFor="last_name" value="Last Name" />
+                        <InputLabel htmlFor="last_name" value="Last Name" />
+
                         <TextInput
                             id="last_name"
                             name="last_name"
                             value={data.last_name}
                             className="mt-1 block w-full"
-                            autoComplete="family-name"
+                            autoComplete="name"
                             onChange={(e) => setData('last_name', e.target.value)}
                             required
                         />
-                        <InputError message={errors.last_name} className="mt-1" />
+
+                        <InputError message={errors.last_name} className="mt-2" />
                     </div>
-                </div>
 
-                <div>
-                    <InputLabel className="text-slate-100" htmlFor="phone" value="Phone Number" />
-                    <TextInput
-                        id="phone"
-                        type="tel"
-                        name="phone"
-                        value={data.phone}
-                        className="mt-1 block w-full"
-                        autoComplete="tel"
-                        onChange={(e) => setData('phone', e.target.value)}
-                        required
-                    />
-                    <InputError message={errors.phone} className="mt-1" />
-                </div>
-
-                <div>
-                    <InputLabel className="text-slate-100" htmlFor="email" value="Email" />
-                    <TextInput
-                        id="email"
-                        type="email"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full"
-                        autoComplete="email"
-                        onChange={(e) => setData('email', e.target.value)}
-                        required
-                    />
-                    <InputError message={errors.email} className="mt-1" />
-                </div>
-
-                <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                        <InputLabel className="text-slate-100" htmlFor="password" value="Password" />
+                        <InputLabel htmlFor="phone" value="Phone Number" />
+
+                        <TextInput
+                            id="phone"
+                            type="tel"
+                            name="phone"
+                            value={data.phone}
+                            className="mt-1 block w-full"
+                            autoComplete="tel"
+                            onChange={(e) => setData('phone', e.target.value)}
+                            required
+                        />
+
+                        <InputError message={errors.phone} className="mt-2" />
+                    </div>
+
+                    <div>
+                        <InputLabel htmlFor="email" value="Email" />
+
+                        <TextInput
+                            id="email"
+                            type="email"
+                            name="email"
+                            value={data.email}
+                            className="mt-1 block w-full"
+                            autoComplete="username"
+                            onChange={(e) => setData('email', e.target.value)}
+                            required
+                        />
+
+                        <InputError message={errors.email} className="mt-2" />
+                    </div>
+
+                    <div>
+                        <InputLabel htmlFor="password" value="Password" />
+
                         <TextInput
                             id="password"
                             type="password"
@@ -105,11 +132,16 @@ export default function Register() {
                             onChange={(e) => setData('password', e.target.value)}
                             required
                         />
-                        <InputError message={errors.password} className="mt-1" />
+
+                        <InputError message={errors.password} className="mt-2" />
                     </div>
 
                     <div>
-                        <InputLabel className="text-slate-100" htmlFor="password_confirmation" value="Confirm Password" />
+                        <InputLabel
+                            htmlFor="password_confirmation"
+                            value="Confirm Password"
+                        />
+
                         <TextInput
                             id="password_confirmation"
                             type="password"
@@ -122,26 +154,35 @@ export default function Register() {
                             }
                             required
                         />
+
                         <InputError
                             message={errors.password_confirmation}
-                            className="mt-1"
+                            className="mt-2"
                         />
                     </div>
-                </div>
 
-                <div className="mt-4 flex items-center justify-between">
-                    <Link
-                        href={route('login')}
-                        className="text-xs text-slate-300 hover:text-slate-100"
+                    <button
+                        type="submit"
+                        disabled={processing}
+                        className="w-full py-4 px-6 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                     >
-                        Already have an account? Log in
-                    </Link>
+                        {processing ? 'Registering...' : 'Create account'}
+                    </button>
 
-                    <PrimaryButton disabled={processing}>
-                        Create account
-                    </PrimaryButton>
-                </div>
-            </form>
+                    {/* Divider */}
+                    <div className="mt-2 pt-6 border-t border-gray-200">
+                        <p className="text-center text-gray-600">
+                            Already registered?{' '}
+                            <Link
+                                href={route('login')}
+                                className="font-semibold text-gray-900 hover:text-gray-700 transition-colors"
+                            >
+                                Sign in
+                            </Link>
+                        </p>
+                    </div>
+                </form>
+            </div>
         </GuestLayout>
     );
 }

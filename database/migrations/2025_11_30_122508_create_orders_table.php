@@ -30,7 +30,6 @@ return new class extends Migration
             $table->timestamp('delivered_date')->nullable();
             $table->timestamps();
             $table->index('order_status');
-            $table->index('user_id','idx_user_id');
         });
     }
 

@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('products')->onDelete('cascade');
             $table->integer('quantity')->default(1);
             $table->timestamps();
-            $table->index('user_id','idx_user_id');
             $table->index('session_id','idx_session');
         });
     }

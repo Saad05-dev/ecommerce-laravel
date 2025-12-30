@@ -5,10 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Product Model
+ * 
+ * Represents a product in the e-commerce platform
+ * Handles relationships with categories, images, and reviews
+ */
 class Product extends Model
 {
-     use HasFactory;
+    use HasFactory;
 
+    /**
+     * The attributes that are mass assignable.
+     * 
+     * These fields can be filled using create() or update() methods
+     * 
+     * @var array
+     */
     protected $fillable = [
         'category_id',
         'sku',
@@ -23,6 +36,13 @@ class Product extends Model
         'is_active',
     ];
 
+    /**
+     * The attributes that should be cast.
+     * 
+     * Automatically converts these fields to the specified types
+     * 
+     * @var array
+     */
     protected $casts = [
         'price' => 'decimal:2',
         'compare_price' => 'decimal:2',
@@ -32,72 +52,169 @@ class Product extends Model
         'is_active' => 'boolean',
     ];
 
-    // Relationship: Category
+    // ==================== RELATIONSHIPS ====================
+
+    /**
+     * Get the category that owns the product
+     * 
+     * A product belongs to one category
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
-    // Relationship: Product images
+    /**
+     * Get all images for the product
+     * 
+     * A product can have multiple images
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function images()
     {
         return $this->hasMany(ProductImage::class);
     }
 
-    // Relationship: Primary image
-    public function primaryImage()
-    {
-        return $this->hasOne(ProductImage::class)->where('is_primary', true);
-    }
-
-    // Relationship: Reviews
+    /**
+     * Get all reviews for the product
+     * 
+     * A product can have multiple reviews from different users
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function reviews()
     {
         return $this->hasMany(Review::class);
     }
 
-    // Relationship: Order items
-    public function orderItems()
-    {
-        return $this->hasMany(OrderItem::class);
-    }
-
-    // Relationship: Cart items
+    /**
+     * Get all cart items for this product
+     * 
+     * A product can be in multiple carts
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function cartItems()
     {
         return $this->hasMany(CartItem::class);
     }
 
-    // Scope: Active products only
+    /**
+     * Get all order items for this product
+     * 
+     * A product can be in multiple orders
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    // ==================== QUERY SCOPES ====================
+
+    /**
+     * Scope a query to only include active products
+     * 
+     * Usage: Product::active()->get()
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
     public function scopeActive($query)
     {
         return $query->where('is_active', true);
     }
 
-    // Scope: In stock
-    public function scopeInStock($query)
+    /**
+     * Scope a query to only include products with low stock
+     * 
+     * Low stock is defined as less than 10 items
+     * Usage: Product::lowStock()->get()
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeLowStock($query)
     {
-        return $query->where('stock_quantity', '>', 0);
+        return $query->where('stock_quantity', '<', 10);
     }
 
-    // Helper: Check if product is on sale
-    public function getIsOnSaleAttribute()
+    /**
+     * Scope a query to only include out of stock products
+     * 
+     * Usage: Product::outOfStock()->get()
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeOutOfStock($query)
     {
-        return $this->compare_price && $this->compare_price > $this->price;
+        return $query->where('stock_quantity', 0);
     }
 
-    // Helper: Calculate discount percentage
-    public function getDiscountPercentageAttribute()
+    /**
+     * Scope a query to filter by category
+     * 
+     * Usage: Product::inCategory($categoryId)->get()
+     * 
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  int  $categoryId
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeInCategory($query, $categoryId)
     {
-        if (!$this->is_on_sale) {
-            return 0;
+        return $query->where('category_id', $categoryId);
+    }
+
+    // ==================== HELPER METHODS ====================
+
+    /**
+     * Get the product's primary image
+     * 
+     * Returns the first image marked as primary, or the first image if none are primary
+     * 
+     * @return \App\Models\ProductImage|null
+     */
+    public function getPrimaryImage()
+    {
+        return $this->images()->where('is_primary', true)->first() 
+            ?? $this->images()->first();
+    }
+
+    /**
+     * Check if product is in stock
+     * 
+     * @return bool
+     */
+    public function isInStock()
+    {
+        return $this->stock_quantity > 0;
+    }
+
+    /**
+     * Check if product has low stock
+     * 
+     * @return bool
+     */
+    public function hasLowStock()
+    {
+        return $this->stock_quantity < 10 && $this->stock_quantity > 0;
+    }
+
+    /**
+     * Get discount percentage if compare_price exists
+     * 
+     * @return float|null
+     */
+    public function getDiscountPercentage()
+    {
+        if ($this->compare_price && $this->compare_price > $this->price) {
+            return round((($this->compare_price - $this->price) / $this->compare_price) * 100);
         }
-        return round((($this->compare_price - $this->price) / $this->compare_price) * 100);
-    }
-
-    // Helper: Average rating
-    public function getAverageRatingAttribute()
-    {
-        return $this->reviews()->where('is_active', true)->avg('rating') ?? 0;
+        return null;
     }
 }

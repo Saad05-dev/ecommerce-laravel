@@ -6,48 +6,101 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\AddressController;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+// Import Admin Controllers
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminProductController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminOrderController;
+use App\Http\Controllers\Api\SearchController;
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+/*
+|--------------------------------------------------------------------------
+| Public Routes - Accessible to Everyone
+|--------------------------------------------------------------------------
+*/
+
+// Home & Products - Public browsing
+Route::get('/', [ProductsController::class, 'index'])->name('home');
+Route::get('/products', [ProductsController::class, 'index'])->name('products.index');
+Route::get('/products/{product}', [ProductsController::class, 'show'])->name('products.show');
+
+// Categories - Public browsing (moved from auth)
+Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+
+// Cart - Public (supports guest checkout)
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+Route::patch('/cart/{cartItem}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/{cartItem}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
+
+// Search API - Public
+Route::get('/api/search', [SearchController::class, 'search'])->name('api.search');
+
+/*
+|--------------------------------------------------------------------------
+| Authenticated User Routes - Requires Login
+|--------------------------------------------------------------------------
+*/
 
 Route::middleware('auth')->group(function () {
+
+    // User Profile Management
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
 
-require __DIR__.'/auth.php';
+    // Customer Addresses
+    Route::post('/addresses', [AddressController::class, 'store'])->name('addresses.store');
 
-
-Route::middleware(['auth','verified'])->group(function () {
-    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
-    Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
-    Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-    Route::get('/categories/{category:slug}/edit', [CategoryController::class, 'edit'])->name('categories.edit');
-    Route::put('/categories/{category:slug}', [CategoryController::class, 'update'])->name('categories.update');
-    Route::delete('/categories/{category:slug}', [CategoryController::class, 'destroy'])->name('categories.destroy');
-
-    Route::get('/products', [ProductsController::class, 'index'])->name('products.index');
-    Route::get('/products/create', [ProductsController::class, 'create'])->name('products.create');
-    Route::post('/products', [ProductsController::class, 'store'])->name('products.store');
-    Route::get('/products/{product:slug}/edit', [ProductsController::class, 'edit'])->name('products.edit');
-    Route::put('/products/{product:slug}', [ProductsController::class, 'update'])->name('products.update');
-    Route::delete('/products/{product:slug}', [ProductsController::class, 'destroy'])->name('products.destroy');
-    Route::get('/products/{product:slug}', [ProductsController::class, 'show'])->name('products.show');
-
+    // Customer Orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/orders/{order:order_number}', [OrderController::class, 'show'])->name('orders.show');
-
-    Route::post('/products/{product:slug}/buy', [OrderController::class, 'buy'])->name('orders.buy');
+    Route::get('/orders/checkout', [OrderController::class, 'checkout'])->name('orders.checkout');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes - Requires Authentication + Admin Role
+|--------------------------------------------------------------------------
+| 
+| Protected by 'auth' and 'admin' middleware
+| All routes are prefixed with /admin and named with 'admin.' prefix
+*/
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+
+    // Admin Dashboard
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+    // Product Management
+    Route::prefix('products')->name('products.')->group(function () {
+        Route::get('/', [AdminProductController::class, 'index'])->name('index');
+        Route::post('/', [AdminProductController::class, 'store'])->name('store');
+        Route::put('/{product}', [AdminProductController::class, 'update'])->name('update');
+        Route::delete('/{product}', [AdminProductController::class, 'destroy'])->name('destroy');
+        Route::patch('/{product}/toggle-active', [AdminProductController::class, 'toggleActive'])->name('toggle-active');
+    });
+
+    // Category Management
+    Route::prefix('categories')->name('categories.')->group(function () {
+        Route::get('/', [AdminCategoryController::class, 'index'])->name('index');
+        Route::post('/', [AdminCategoryController::class, 'store'])->name('store');
+        Route::put('/{category}', [AdminCategoryController::class, 'update'])->name('update');
+        Route::delete('/{category}', [AdminCategoryController::class, 'destroy'])->name('destroy');
+    });
+
+    // Order Management (Admin side)
+    Route::prefix('orders')->name('orders.')->group(function () {
+        Route::get('/', [AdminOrderController::class, 'index'])->name('index');
+        Route::get('/{order}', [AdminOrderController::class, 'show'])->name('show');
+        Route::patch('/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('update-status');
+    });
+});
+
+require __DIR__ . '/auth.php';

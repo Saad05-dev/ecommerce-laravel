@@ -1,4 +1,11 @@
 <?php
+ini_set('upload_max_filesize', '10M');
+ini_set('post_max_size', '10M');
+ini_set('memory_limit', '256M');
+
+// Le reste du fichier...
+?>
+<?php
 
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
